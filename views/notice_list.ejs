@@ -128,7 +128,7 @@
                 </a>
             </li>
             <% for(var j = 0; j<rows.length/8; j++){ %>
-                <li class="page_all">
+                <li class="page_all" name="page_all">
                     <a href="/notice/<%= j+1 %>"><%= j+1 %></a>
                 </li>
             <% } %>
@@ -164,4 +164,5 @@
         </ul>
     </section>
 </main>
+<script src="../js/notice.js"></script>
 <script src="../js/top_btn.js"></script>
