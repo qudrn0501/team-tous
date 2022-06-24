@@ -1,10 +1,10 @@
 const mysql = require('mysql');
 const connection = mysql.createConnection({
     host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b96b593c28ad68',
-    password: 'fe2977c9',
+    user: 'b6da7e27c33288',
+    password: 'a88b8ffc',
     port: '3306',
-    database: 'heroku_aa6031eb311b2b4',
+    database: 'heroku_ebfcf8e8740f1c3',
     dateStrings: 'date'
 }); //보안상 다른 파일로 빼야됨
 
@@ -20,8 +20,8 @@ function getAllMemos(callback) {
 //!!!!page test!!!!
 
 //리스트 갯수를 카운트하는 함수
-function countAll(callback){
-    connection.query('SELECT COUNT(*) FROM notice',(err, result) => {
+function countAll(callback) {
+    connection.query('SELECT COUNT(*) FROM notice', (err, result) => {
         let count = Object.values(result[0])[0];
         if (err) throw err;
         callback(count);
