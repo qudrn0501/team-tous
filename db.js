@@ -1,10 +1,10 @@
 const mysql = require('mysql');
 const connection = mysql.createConnection({
     host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b6da7e27c33288',
-    password: 'a88b8ffc',
+    user: 'b96b593c28ad68',
+    password: 'fe2977c9',
     port: '3306',
-    database: 'heroku_ebfcf8e8740f1c3',
+    database: 'heroku_aa6031eb311b2b4',
     dateStrings: 'date'
 }); //보안상 다른 파일로 빼야됨
 
@@ -17,8 +17,8 @@ function getAllMemos(callback) {
 }
 
 //리스트 갯수를 카운트하는 함수
-function countAll(callback) {
-    connection.query('SELECT COUNT(*) FROM notice', (err, result) => {
+function countAll(callback){
+    connection.query('SELECT COUNT(*) FROM notice',(err, result) => {
         let count = Object.values(result[0])[0];
         if (err) throw err;
         callback(count);
@@ -57,6 +57,17 @@ function deleteMemoById(id, callback) {
     });
 }
 
+/************************** 공지사항 검색 ****************************/
+
+function searchMemo(keyword, callback){
+    console.log(keyword);
+    connection.query(`SELECT * FROM (SELECT *, @rownum:=@rownum+1 AS RNUM FROM notice, (SELECT @rownum :=0 as R)NUM)SUB WHERE title LIKE '%${keyword}%' ORDER BY id DESC`, (err, rows, fields) => {
+        if (err) throw err;
+        callback(rows);
+});
+}
+
+
 /*************************** 회원가입 ********************************/
 
 //회원가입 정보를 받는 함수
@@ -76,5 +87,6 @@ module.exports = {
     getMemoById,
     updateMemoById,
     deleteMemoById,
+    searchMemo,
     insertCustom
 };

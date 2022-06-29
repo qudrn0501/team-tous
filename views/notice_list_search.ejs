@@ -1,0 +1,84 @@
+<main class="notice">
+    <div class="circle circle_animate"></div>
+    <section class="title">
+        <h2 class="title_h2">Community</h2>
+        <ul class="title_nav1">
+            <li><a class="active" href="/notice/1">공지사항</a></li>
+            <li><a href="">고객센터</a></li>
+        </ul>
+    </section>
+    <section class="notice_wrap">
+        <div class="notice_header">
+            <div class="notice_count">총 <span><%= count %></span>건의 게시물이 있습니다.</div>
+            <form method="GET" id="search" action="/search" class="notice_search">
+                <select>
+                    <option>제목</option>
+                </select>
+                <input type="text" name="search_txt" id="searchTxt" placeholder="검색어를 입력해주세요." />
+                <button type="submit">검색</button>
+            </form>
+        </div>
+        <table class="notice_list">
+            <colgroup>
+                <col class="num" />
+                <col class="title" />
+                <col class="date" />
+            </colgroup>
+            <thead>
+                <tr class="noti_none">
+                    <td class="noti_none">번호</td>
+                    <td>제목</td>
+                    <td>작성일</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="notice_list_noti">
+                    <td class="notice_list_num noti_none">
+                        <img width="30px" src="../img/icon_board_notice.png" alt="공지" />
+                    </td>
+                    <td class="notice_list_title"><a href="">CJ ONE 멤버십 서비스 정책 변경 안내</a></td>
+                    <td class="notice_list_date">2018.01.29</td>
+                </tr>
+                <tr class="notice_list_noti">
+                    <td class="notice_list_num noti_none">
+                        <img width="30px" src="../img/icon_board_notice.png" alt="공지" />
+                    </td>
+                    <td class="notice_list_title"><a href="">뚜레쥬르 모바일 제품 교환권 이용 안내</a></td>
+                    <td class="notice_list_date">2016.03.31</td>
+                </tr>
+                <% rows.forEach((row, index) => { %>
+                    <tr>
+                        <td class="notice_list_num noti_none"><%= row.RNUM %></td>
+                        <td class="notice_list_title"><a onclick="javascript:location.href ='/notice_view?id=<%=row.id%>'"><%= row.title %></a></td>
+                        <td class="notice_list_date"><%= row.date %></td>
+                    </tr>
+                <% }) %>
+                <% if(rows.length == 0){ %>
+                        <tr>
+                        <td class="notice_list_num noti_none"></td>
+                        <td class="notice_list_title">검색결과가 없습니다.</td>
+                        <td class="notice_list_date"></td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+        <a href="/notice_write" class="graybtn">글작성</a>
+        <ul class="page">
+            <li class="page_prev">
+                <a href="">
+                    <img src="../img/kprev-icon.jpg" />
+                </a>
+            </li>
+                <li class="page_all">
+                    <a href="">1</a>
+                </li>
+            <li class="page_next">
+                <a href="">
+                    <img src="../img/knext-icon.jpg" />
+                </a>
+            </li>
+        </ul>
+    </section>
+</main>
+<script src="../js/notice.js"></script>
+<script src="../js/top_btn.js"></script>

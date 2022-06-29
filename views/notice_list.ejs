@@ -3,21 +3,19 @@
     <section class="title">
         <h2 class="title_h2">Community</h2>
         <ul class="title_nav1">
-            <li><a class="active" href="">공지사항</a></li>
+            <li><a class="active" href="/notice/1">공지사항</a></li>
             <li><a href="">고객센터</a></li>
         </ul>
     </section>
     <section class="notice_wrap">
         <div class="notice_header">
             <div class="notice_count">총 <span><%= count %></span>건의 게시물이 있습니다.</div>
-            <form class="notice_search">
-                <select name="" id="">
-                    <option value="">전체</option>
-                    <option value="">제목</option>
-                    <option value="">내용</option>
+            <form method="GET" id="search" action="/search" class="notice_search">
+                <select>
+                    <option>제목</option>
                 </select>
-                <input type="text" placeholder="검색어를 입력해주세요." />
-                <button>검색</button>
+                <input type="text" name="search_txt" id="searchTxt" placeholder="검색어를 입력해주세요." />
+                <button type="submit">검색</button>
             </form>
         </div>
         <table class="notice_list">
@@ -51,12 +49,8 @@
                 <%
                 for(var i = (page*pageNum)-pageNum; i<(page*pageNum); i++){
                     if(i > leng){
-                        console.log(page);
-                        console.log(pageNum);
                         i++;
                     } else {
-                        console.log(page);
-                        console.log(pageNum);
                         var item = rows[i];
                 %>
                     <tr>
@@ -128,34 +122,10 @@
                 </a>
             </li>
             <% for(var j = 0; j<rows.length/8; j++){ %>
-                <li class="page_all" name="page_all">
+                <li class="page_all">
                     <a href="/notice/<%= j+1 %>"><%= j+1 %></a>
                 </li>
             <% } %>
-            <!-- <li class="page_active">
-                <a href=""> 1 </a>
-            </li>
-            <li class="noti_none">
-                <a href=""> 2 </a>
-            </li>
-            <li class="noti_none">
-                <a href=""> 3 </a>
-            </li>
-            <li class="noti_none">
-                <a href=""> 4 </a>
-            </li>
-            <li class="noti_none">
-                <a href=""> 5 </a>
-            </li>
-            <li class="noti_none">
-                <a href=""> 6 </a>
-            </li>
-            <li class="noti_none">
-                <a href=""> 7 </a>
-            </li>
-            <li class="noti_none">
-                <a href=""> 8 </a>
-            </li> -->
             <li class="page_next">
                 <a href="">
                     <img src="../img/knext-icon.jpg" />

@@ -15,9 +15,9 @@ router.get("/", (req, res) => {
 });
 
 router.post('/write', [check('content').isByteLength({
-    min: 1,
-    max: 5000
-})], //그냥 islength도 가능
+        min: 1,
+        max: 5000
+    })], //그냥 islength도 가능
     function (req, res, next) {
         let errs = validationResult(req);
         console.log(errs); //콘솔 에러 출력하기
@@ -82,15 +82,15 @@ router.post('/update', [check('content').isByteLength({
 router.get('/notice_delete', (req, res) => {
     let id = req.query.id;
     db.deleteMemoById(id, () => {
-        res.redirect('/notice');
+        res.redirect('/notice/1');
     });
 });
 
 router.get("/notice/:page", (req, res, next) => {
-    var page = req.params.page;
+    let page = req.params.page;
     db.countAll((count) => { //리스트 갯수 체크
         db.getAllMemos((rows) => {
-            res.render('notice_list', { rows: rows, count: count, page: page, leng: Object.keys(rows).length - 1, pageNum: 8, pass: true });
+            res.render('notice_list', {rows: rows, count: count, page :page, leng : Object.keys(rows).length-1, pageNum : 8, pass : true});
         });
     });
 })
@@ -122,8 +122,24 @@ router.get("/menu", (req, res) => {
     res.render("menu");
 })
 
+router.get("/menu2", (req, res) => {
+    res.render("menu2");
+})
+
+router.get("/menu3", (req, res) => {
+    res.render("menu3");
+})
+
 router.get("/menu_sub", (req, res) => {
     res.render("menu_sub");
+})
+
+router.get("/menu_sub2", (req, res) => {
+    res.render("menu_sub2");
+})
+
+router.get("/menu_sub3", (req, res) => {
+    res.render("menu_sub3");
 })
 
 router.get("/event", (req, res) => {
@@ -142,7 +158,19 @@ router.get("/signup", (req, res) => {
     res.render("signup");
 })
 
-router.post('/signup', (req, res, next) => {
+//검색기능
+router.get("/search", (req, res, next) => {
+    let keyword = req.query.search_txt;
+    db.countAll((count) => {
+        db.searchMemo(keyword, (rows) => {
+            res.render('notice_list_search', {rows:rows, count:count, keyword:keyword});
+            console.log(rows);
+        });
+    });
+})
+
+//회원가입 데이터 받기
+router.post('/signup', (req, res, next)=> {
     let errs = validationResult(req);
     console.log(errs); //콘솔 에러 출력하기
     if (errs['errors'].length > 0) {
@@ -166,6 +194,6 @@ router.post('/signup', (req, res, next) => {
         });
     }
 }
-);
+); 
 
 module.exports = router;
