@@ -15,9 +15,9 @@ router.get("/", (req, res) => {
 });
 
 router.post('/write', [check('content').isByteLength({
-        min: 1,
-        max: 5000
-    })], //그냥 islength도 가능
+    min: 1,
+    max: 5000
+})], //그냥 islength도 가능
     function (req, res, next) {
         let errs = validationResult(req);
         console.log(errs); //콘솔 에러 출력하기
@@ -90,7 +90,7 @@ router.get("/notice/:page", (req, res, next) => {
     let page = req.params.page;
     db.countAll((count) => { //리스트 갯수 체크
         db.getAllMemos((rows) => {
-            res.render('notice_list', {rows: rows, count: count, page :page, leng : Object.keys(rows).length-1, pageNum : 8, pass : true});
+            res.render('notice_list', { rows: rows, count: count, page: page, leng: Object.keys(rows).length - 1, pageNum: 8, pass: true });
         });
     });
 })
@@ -130,6 +130,10 @@ router.get("/menu3", (req, res) => {
     res.render("menu3");
 })
 
+router.get("/menu4", (req, res) => {
+    res.render("menu4");
+})
+
 router.get("/menu_sub", (req, res) => {
     res.render("menu_sub");
 })
@@ -158,19 +162,21 @@ router.get("/signup", (req, res) => {
     res.render("signup");
 })
 
+
+
 //검색기능
 router.get("/search", (req, res, next) => {
     let keyword = req.query.search_txt;
     db.countAll((count) => {
         db.searchMemo(keyword, (rows) => {
-            res.render('notice_list_search', {rows:rows, count:count, keyword:keyword});
+            res.render('notice_list_search', { rows: rows, count: count, keyword: keyword });
             console.log(rows);
         });
     });
 })
 
 //회원가입 데이터 받기
-router.post('/signup', (req, res, next)=> {
+router.post('/signup', (req, res, next) => {
     let errs = validationResult(req);
     console.log(errs); //콘솔 에러 출력하기
     if (errs['errors'].length > 0) {
@@ -194,6 +200,14 @@ router.post('/signup', (req, res, next)=> {
         });
     }
 }
-); 
+);
+
+//지도 데이터베이스 받기
+router.get('/store', (req, res) => {
+
+    db.accessMap((rows) => {
+        res.render('store', { rows: rows })
+    });
+})
 
 module.exports = router;

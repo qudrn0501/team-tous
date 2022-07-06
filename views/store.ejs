@@ -1,0 +1,58 @@
+<main class="store">
+    <div class="circle circle_animate"></div>
+    <section class="title">
+        <h2 class="title_h2">Finding Store</h2>
+        
+    </section>
+    <section class="store_wrap">
+        <div class="store_header">
+            <form method="GET" id="search" action="/search" class="store_search">
+                <select name="sido1" id="sido1" placeholder="도/시 선택">
+                </select>
+                <select name="gugun1" id="gugun1" placeholder="구/군">
+                </select>
+                <input type="text" name="search_txt" id="searchTxt" placeholder="검색어를 입력해주세요." />
+                <button type="submit">검색</button>
+            </form>
+        </div>
+        <div class="store_list">
+            <ul>
+                <% rows.forEach((row, index) => { %>
+                <li class="map_list">
+                    <div class="map_button">
+                        <h3 class="list_title"><%= row.mapname%></h3>
+                        <p class="list_address"><%= row.address%></p>
+                        <p class="list_phone"><img src="../img/store/ico_phone.png" alt=""><%= row.phone%></p>
+                        <div class="list_locate"></div>
+                    </div>
+                    <div class="list_map" id="map" style="width:1250px;height:450px;"></div>
+                    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a64836058a118c57247353c7924e8907"></script>
+                    <script>
+                        //kakao map
+                        var mapContainer = document.getElementById('map');
+                        var mapOption = {
+                        center: new kakao.maps.LatLng("<%= row.locationx%>", "<%= row.locationy%>"),
+                        level: 1
+                        };
+
+                        var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+                        // 마커가 표시될 위치입니다 
+                        var markerPosition  = new kakao.maps.LatLng("<%= row.pinx%>", "<%= row.piny%>"); 
+
+                        // 마커를 생성합니다
+                        var marker = new kakao.maps.Marker({
+                            position: markerPosition
+                        });
+
+                        // 마커가 지도 위에 표시되도록 설정합니다
+                        marker.setMap(map);
+                    </script>
+                </li>
+                <% }) %>
+            </ul>
+        </div>
+    </section>
+</main>
+<script src="../js/store.js"></script>
+<script src="../js/top_btn.js"></script>

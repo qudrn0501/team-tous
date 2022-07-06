@@ -135,10 +135,11 @@ header {
     top: 120px;
     z-index: 1;
     box-shadow: 0 8px 15px rgb(0 0 0 / 10%);
+   
 }
 .h_nav > .dropdown > .dropdown_content > a {
     float: none;
-    color: #333333;
+    color: #4b4b4b;
     padding: 8px 15px;
     text-decoration: none;
     display: block;
@@ -181,7 +182,6 @@ header {
     background-color: #F26A25;
     color: #fff;
 }
-
 .h_btn > .active_hbtn {
     display: block;
     font-size: 17px;
@@ -189,6 +189,7 @@ header {
     transition: all 0.5s ease-in-out;
     text-align: center;
     margin-right: 20px;
+    cursor: pointer;
 }
 .h_btn:hover .active_hbtn {
     color: #f26a25;

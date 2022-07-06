@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="../css/menu.css" />
     <link rel="stylesheet" href="../css/menu2.css" />
     <link rel="stylesheet" href="../css/menu3.css" />
+    <link rel="stylesheet" href="../css/menu4.css" />
     <link rel="stylesheet" href="../css/menu_sub.css" />
     <link rel="stylesheet" href="../css/menu_sub2.css" />
     <link rel="stylesheet" href="../css/menu_sub3.css" />
@@ -27,6 +28,8 @@
     <link rel="stylesheet" href="../css/login.css" />
     <link rel="stylesheet" href="../css/signup.css" />
     <link rel="stylesheet" href="../css/notice_write.css" />
+    <link rel="stylesheet" href="../css/store.css" />
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 </head>
 
 <body>
@@ -49,7 +52,7 @@
                         <a href="/menu3">델리</a>
                         <a href="/menu3">선물</a>
                         <a href="/menu3">디저트/스낵</a>
-                        <a href="/menu3">음료</a>
+                        <a href="/menu4">음료</a>
                     </div>
                 </li>
                 <li class="dropdown">
@@ -69,11 +72,13 @@
                     </div>
                 </li>
                 <li class="dropdown">
-                    <a class="active_hnav" href="javascript:alert('준비중입니다.');"><p>매장찾기</p></a>
+                    <a class="active_hnav" href="/store"><p>매장찾기</p></a>
                 </li>
             </ul>
             <div class="h_btn">
-                <a class="active_hbtn" href="/login">로그인</a>
+                <div class="active_hbtn"  id="login" onclick="javascript:kakaoLogin();">로그인</div>
+                <div class="active_hbtn"><span id="user"></span></div>
+                <div class="active_hbtn"  id="logout" onclick="javascript:kakaoLogout();">로그아웃</div>
             </div>
             <div class="search_box">
                 <button class="btn_search"><i class="fas fa-search"></i></button>
@@ -217,6 +222,50 @@
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="../js/mobile.js"></script>
+    <script>
+        Kakao.init('a64836058a118c57247353c7924e8907');
+        Kakao.isInitialized();
+        document.getElementById('logout').style.display = 'none';
+        document.getElementById('user').style.display = 'none';
+        
+        function kakaoLogin() {
+            Kakao.Auth.login({
+                success: function (response) {
+                    Kakao.API.request({
+                        url: '/v2/user/me', 
+                        success: function (response) {
+                            console.log(response); //테스트용
+                            document.getElementById('user').innerText = 
+                                response.kakao_account.profile.nickname + '님';
+                            document.getElementById('login').style.display = 'none';
+                            document.getElementById('logout').style.display = 'block';
+                            document.getElementById('user').style.display = 'block';
+                            alert(response.kakao_account.profile.nickname + '님 로그인 되었습니다.')
+                        }
+                    })
+                }
+            }) 
+        }
+
+        function kakaoLogout() {
+            if (Kakao.Auth.getAccessToken()) {
+                Kakao.API.request({
+                        url: '/v1/user/unlink', 
+                        success: function (response) {
+                            console.log(response); //테스트용
+                            document.getElementById('user').style.display = 'none';
+                            document.getElementById('login').style.display = 'block';
+                            document.getElementById('logout').style.display = 'none';
+                            alert('로그아웃 되었습니다.');
+                        }
+                        
+                    })
+                    Kakao.Auth.setAccessToken(undefined)
+            }
+            
+            
+        }
+    </script>
     <%- script %>
 </body>
 
